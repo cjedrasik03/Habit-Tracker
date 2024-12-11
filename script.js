@@ -3,10 +3,14 @@
 const habitsContainer = document.getElementById('habits-container');
 const addHabitButton = document.getElementById('add-habit-button');
 const totalHabitsElement = document.getElementById('total-habits');
+const completeSection = document.getElementById('completed-habits');
 
 // Counter for total habit/s, then displays it w/in totalHabitsElement
 const updateTotalHabits = () => {
-    const totalHabits = habitsContainer.children.length;
+    const habitContTotal = habitsContainer.children.length;
+    const compHabitsTotal = completeSection.children.length;
+
+    const totalHabits = habitContTotal + compHabitsTotal;
     totalHabitsElement.textContent = totalHabits;
 }
 // Function to create entire new habit box
@@ -36,6 +40,16 @@ const createHabitElement = () => {
 // Appends the options to the habitStatus dropdown selector
     habitStatus.appendChild(incompleteOption);
     habitStatus.appendChild(completeOption);
+
+// Listens for 'Complete' status and moves to completed section
+    habitStatus.addEventListener('change', () => {
+        if (habitStatus.value === 'complete') {
+            completeSection.appendChild(habitElement);
+            updateTotalHabits();
+        } else if (habitStatus.value === 'incomplete') {
+            habitsContainer.appendChild(habitElement);
+        }
+    })
 
 // Delete button
     const deleteButton = document.createElement('button');
