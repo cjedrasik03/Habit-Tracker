@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+</head>
+    
+<body>
+    <header>
+        <h1>Habit Tracker</h1>
+            <p>Total Habits: <span id="total-habits">0</span></p>
+    </header>
+    
+    <main>
+        <div id="habits-container">
+            <!-- Blank initial habit box -->
+             <div class="habit">
+                <input type="text" class="habit-input" maxlength="24" placeholder="Enter a habit to track...">
+                <select class="habit-status">
+                    <option value="Incomplete">Incomplete</option>
+                    <option value="Completed">Completed</option>
+                </select>
+             </div>
+        </div>
+        <button id="add-habit-button">Add A New Habit</button>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
