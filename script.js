@@ -18,12 +18,12 @@ const saveHabitsToLocalStorage = () => {
     const habits = [];
 
 // Gets all habits from both habit containers
-    habitsContainer.querySelector('.habit').forEach((habitElement) => {
+    habitsContainer.querySelectorAll('.habit').forEach((habitElement) => {
         const habitInput = habitElement.querySelector('.habit-input').value;
         const habitStatus = habitElement.querySelector('.habit-status').value;
         habits.push({ text: habitInput, status: habitStatus});
     });
-    completeSection.querySelector('.habit').forEach((habitElement) => {
+    completeSection.querySelectorAll('.habit').forEach((habitElement) => {
         const habitInput = habitElement.querySelector('.habit-input').value;
         const habitStatus = habitElement.querySelector('.habit-status').value;
         habits.push({ text: habitInput, status: habitStatus});
@@ -111,10 +111,7 @@ const createHabitElement = () => {
 
 // Initializes the first habit box upon loading
 const initializeApp = () => {
-    const initialHabit = createHabitElement();
-    habitsContainer.appendChild(initialHabit);
     loadHabitsFromLocalStorage();
-    updateTotalHabits();
 };
 
 initializeApp();
@@ -124,6 +121,7 @@ addHabitButton.addEventListener('click', function() {
     const newHabit = createHabitElement();
     habitsContainer.appendChild(newHabit);
     updateTotalHabits();
+    saveHabitsToLocalStorage();
 });
 
 // Double checks & updates total habit counter
