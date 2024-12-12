@@ -13,6 +13,42 @@ const updateTotalHabits = () => {
     const totalHabits = habitContTotal + compHabitsTotal;
     totalHabitsElement.textContent = totalHabits;
 }
+
+const saveHabitsToLocalStorage = () => {
+    const habits = [];
+
+// Gets all habits from both habit containers
+    habitsContainer.querySelector('.habit').forEach((habitElement) => {
+        const habitInput = habitElement.querySelector('.habit-input').value;
+        const habitStatus = habitElement.querySelector('.habit-status').value;
+        habits.push({ text: habitInput, status: habitStatus});
+    });
+    completeSection.querySelector('.habit').forEach((habitElement) => {
+        const habitInput = habitElement.querySelector('.habit-input').value;
+        const habitStatus = habitElement.querySelector('.habit-status').value;
+        habits.push({ text: habitInput, status: habitStatus});
+    });
+// Saves to the local storage
+    localStorage.setItem('habits', JSON.stringify(habits));
+}
+
+const loadHabitsFromLocalStorage = () => {
+    const storedHabits = JSON.parse(localStorage.getItem('habits')) || [];
+    storedHabits.forEach((habit) => {
+        const habitElement = createHabitElement();
+        habitElement.querySelector('.habit-input').value = habit.text;
+        habitElement.querySelector('.habit-status').value = habit.status;
+
+// Append to the respective section based on habit status
+        if (habit.status === 'complete') {
+            completeSection.appendChild(habitElement);
+        } else {
+            habitsContainer.appendChild(habitElement);
+        }
+    });
+    updateTotalHabits();
+};
+
 // Function to create entire new habit box
 const createHabitElement = () => {
     const habitElement = document.createElement('div');
@@ -49,6 +85,8 @@ const createHabitElement = () => {
         } else if (habitStatus.value === 'incomplete') {
             habitsContainer.appendChild(habitElement);
         }
+        updateTotalHabits();
+        saveHabitsToLocalStorage();
     })
 
 // Delete button
@@ -59,6 +97,7 @@ const createHabitElement = () => {
     deleteButton.addEventListener('click', function() {
         habitElement.remove();
         updateTotalHabits();
+        saveHabitsToLocalStorage();
     })
 
 // Appends the following to the current Div element being made
@@ -74,6 +113,7 @@ const createHabitElement = () => {
 const initializeApp = () => {
     const initialHabit = createHabitElement();
     habitsContainer.appendChild(initialHabit);
+    loadHabitsFromLocalStorage();
     updateTotalHabits();
 };
 
